@@ -1,22 +1,20 @@
 import express from "express";
-import dotenv from "dotenv";
-import { userRoute } from "./routers";
+import config from "./utils/config";
 import db from "./config/db";
+import { userRoute } from "./routers";
 
-const PORT = process.env.PROD_PORT || process.env.DEV_PORT;
-
-dotenv.config();
 const app = express();
-require("dotenv").config();
 
 app.use("/api/auth", userRoute);
 
 db.authenticate()
-	.then((res) => {
-		console.log(res);
-	})
-	.catch((err) => console.log(err));
+.then((res) => {
 
-app.listen(PORT, () => {
-	console.log(`Server listen on port ${PORT}...`);
+	console.log("Database is online");
+	
+})
+.catch((err) => console.log(err));
+
+app.listen(config.port, () => {
+	console.log(`Server listen on port ${config.port}...`);
 });

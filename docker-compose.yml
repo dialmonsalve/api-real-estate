@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  realstatebd:
+    container_name: ${DB_DIALECT}
+    image: mysql:oraclelinux8
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    ports:
+      - 3306:3306
+    restart: always
+    volumes:
+      - ./mysql:/data/db
+
+  adminer:
+    depends_on:
+      - realstatebd
+    image: adminer:standalone
+    container_name: adminer-node
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  bienes_raices-vol:
+    external: false

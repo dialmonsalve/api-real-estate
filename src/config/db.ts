@@ -1,13 +1,15 @@
-import { Dialect, Sequelize } from "sequelize";
+import {   Sequelize } from "sequelize";
+
+import config from "../utils/config";
 
 const db = new Sequelize(
-	process.env.DB_NAME ?? "",
-	process.env.DB_USER ?? "",
-	process.env.DB_PASSWORD,
+	config.database.name,
+	config.database.username,
+	config.database.password,
 	{
-		host: process.env.DB_HOST,
-		port: 3006,
-		dialect: process.env.DB_DIALECT as Dialect,
+		host: config.database.host,
+		port: config.database.port,
+		dialect: "mysql",
 		define: {
 			timestamps: true,
 		},
@@ -17,7 +19,8 @@ const db = new Sequelize(
 			acquire: 30000,
 			idle: 10000,
 		},
-		operatorsAliases: {},
+		operatorsAliases:{
+		}
 	},
 );
 
