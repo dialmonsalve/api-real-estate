@@ -12,7 +12,8 @@ const config = {
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT)
   },
-  port: process.env.PROD_PORT || process.env.DEV_PORT
+  port: process.env.PROD_PORT || process.env.DEV_PORT,
+  backend: process.env.BACKEND_URL
 }
 
 export default config;
