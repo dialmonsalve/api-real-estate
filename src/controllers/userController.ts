@@ -209,7 +209,13 @@ const newPassword = async (req: Request, res: Response) => {
 
 	const user = await User.findOne({ where: { token } });
 
-	if (!user) return;
+	if (!user) {
+		return res.status(403).json({
+			title: "Reset your password",
+			message: "There is a error when try to reset your password",
+			error: true,
+		});
+	}
 
 	const salt = await bcrypt.genSalt(10);
 	user.password = await bcrypt.hash(password, salt);
