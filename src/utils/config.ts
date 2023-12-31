@@ -2,8 +2,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-require("dotenv").config();
-
 const config = {
   database: {
     name: process.env.DB_NAME ?? "",
@@ -13,7 +11,8 @@ const config = {
     port: Number(process.env.DB_PORT)
   },
   port: process.env.PROD_PORT || process.env.DEV_PORT,
-  backend: process.env.BACKEND_URL
+  backend: process.env.BACKEND_URL,
+  keyJwt: process.env.KEY_JWT
 }
 
 export default config;

@@ -3,13 +3,15 @@ import bcrypt from "bcrypt";
 import db from "../config/db";
 
 interface IUser extends Model {
-  name: string;
-  email: string;
-  password: string;
-  token: null | string;
-  confirm: boolean;
-  updatedAt:string;
-  createdAt:string
+	id: string;
+	name: string;
+	email: string;
+	password: string;
+	token: null | string;
+	confirm: boolean;
+	updatedAt: string;
+	createdAt: string;
+	verifyPassword: (password: string) => boolean;
 }
 
 const User = db.define<IUser>(
@@ -39,5 +41,9 @@ const User = db.define<IUser>(
 		},
 	},
 );
+
+User.prototype.verifyPassword = function (password: string) {
+	return bcrypt.compareSync(password, this.password);
+};
 
 export default User;

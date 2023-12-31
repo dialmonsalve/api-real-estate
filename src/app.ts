@@ -3,8 +3,8 @@ import csrf from "csurf";
 import cookieParser from "cookie-parser";
 
 import db from "./config/db";
-import config from "./utils/config";
 import { userRoute } from "./routers";
+import config from "./utils/config";
 
 const app = express();
 

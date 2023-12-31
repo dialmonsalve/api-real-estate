@@ -1,4 +1,4 @@
-import {   Sequelize } from "sequelize";
+import  Another, {  Sequelize, Op } from "sequelize";
 
 import config from "../utils/config";
 
@@ -19,8 +19,6 @@ const db = new Sequelize(
 			acquire: 30000,
 			idle: 10000,
 		},
-		operatorsAliases:{
-		}
 	},
 );
 
