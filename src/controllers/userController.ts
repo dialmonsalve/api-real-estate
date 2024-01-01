@@ -1,6 +1,5 @@
 import { type Request, type Response } from "express";
 
-import { check, validationResult } from "express-validator";
 import bcrypt from "bcrypt";
 
 import User from "../models/User";
@@ -13,21 +12,6 @@ const loginForm = (req: Request, res: Response) => {
 
 const authentication = async (req: Request, res: Response) => {
 	const { email, password } = req.body;
-
-	await check("email")
-		.isEmail()
-		.withMessage("Field email is required")
-		.run(req);
-	await check("password")
-		.notEmpty()
-		.withMessage("Field password is required")
-		.run(req);
-
-	const results = validationResult(req);
-
-	if (!results.isEmpty()) {
-		return res.status(400).json({ errors: results.array() });
-	}
 
 	const userOnDB = await User.findOne({ where: { email } });
 
@@ -54,7 +38,7 @@ const authentication = async (req: Request, res: Response) => {
 		.cookie("_token", token, {
 			httpOnly: true,
 			secure: true,
-			sameSite:true
+			sameSite: true,
 		});
 };
 
@@ -66,36 +50,8 @@ const forgetPasswordForm = (req: Request, res: Response) => {
 	return res.json({ message: "forget-password" });
 };
 
-const userRegister = async (req: Request, res: Response) => {
+const registerUser = async (req: Request, res: Response) => {
 	const { name, email, password } = req.body;
-
-	await check("name").notEmpty().withMessage("Name is requerid").run(req);
-	await check("email")
-		.isEmail()
-		.withMessage("This field doesn't a valid email")
-		.run(req);
-	await check("password")
-		.isLength({ min: 6 })
-		.withMessage("Password must be at least six characters")
-		.run(req);
-	await check("repeatPassword")
-		.equals(password)
-		.withMessage("Passwords aren't equals")
-		.run(req);
-
-	const results = validationResult(req);
-
-	if (!results.isEmpty()) {
-		return res.status(400).json({ errors: results.array() });
-	}
-
-	const userOnDB = await User.findOne({ where: { email } });
-
-	if (userOnDB) {
-		return res
-			.status(400)
-			.json({ errors: [{ msg: "The user is already registered" }] });
-	}
 
 	const user = await User.create({
 		name,
@@ -125,7 +81,6 @@ const confirmAccount = async (req: Request, res: Response) => {
 
 	if (!user) {
 		return res.status(403).json({
-			title: "Error confirming your account",
 			message: "There is a error confirming your account",
 			error: true,
 		});
@@ -144,17 +99,6 @@ const confirmAccount = async (req: Request, res: Response) => {
 
 const resetPassword = async (req: Request, res: Response) => {
 	const { email } = req.body;
-
-	await check("email")
-		.isEmail()
-		.withMessage("This field doesn't a valid email")
-		.run(req);
-
-	const results = validationResult(req);
-
-	if (!results.isEmpty()) {
-		return res.status(400).json({ errors: results.array() });
-	}
 
 	const userOnDB = await User.findOne({ where: { email } });
 
@@ -183,8 +127,7 @@ const findOutToken = async (req: Request, res: Response) => {
 
 	if (!user) {
 		return res.status(403).json({
-			title: "Reset your password",
-			message: "There is a error when try to reset your password",
+			errors: [{ msg: "There is an error when try to reset your password" }],
 			error: true,
 		});
 	}
@@ -193,17 +136,6 @@ const findOutToken = async (req: Request, res: Response) => {
 };
 
 const newPassword = async (req: Request, res: Response) => {
-	await check("password")
-		.isLength({ min: 6 })
-		.withMessage("Password must be at least six characters")
-		.run(req);
-
-	const results = validationResult(req);
-
-	if (!results.isEmpty()) {
-		return res.status(400).json({ errors: results.array() });
-	}
-
 	const { token } = req.params;
 	const { password } = req.body;
 
@@ -211,7 +143,6 @@ const newPassword = async (req: Request, res: Response) => {
 
 	if (!user) {
 		return res.status(403).json({
-			title: "Reset your password",
 			message: "There is a error when try to reset your password",
 			error: true,
 		});
@@ -235,5 +166,5 @@ export {
 	newPassword,
 	registerForm,
 	resetPassword,
-	userRegister,
+	registerUser,
 };

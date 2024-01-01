@@ -1,16 +1,48 @@
 import { type Request, type Response } from "express";
 
-import { check, validationResult } from "express-validator";
-import bcrypt from "bcrypt";
+import {Category, Price, Property} from "../models";
 
-import User from "../models/User";
-import { generateId, generateJWT } from "../utils/jwt";
-import { emailRegister, emailForgetPassword } from "../utils/mailtrap";
-
-const getProperties = (req: Request, res: Response) => {
+const admin = (req: Request, res: Response) => {
 	return res.json({ message: "getProperties" });
 };
 
+const getProperty = async (req: Request, res: Response) => {
+
+	const [categories, prices] = await Promise.all([
+		Category.findAll(),
+		Price.findAll(),
+		
+	])
+	return res.json({ categories, prices, data:{} });
+};
+
+const create = async (req: Request, res: Response) => {
+
+	const { title, description, rooms, parking, wc, street, lat, lng, price, category } = req.body
+
+	try {
+		const propertySaved = await Property.create({
+			title,
+			description,
+			rooms,
+			parking,
+			wc,
+			street,
+			lat,
+			lng,
+			priceId: price,
+			categoryId: category
+		})
+	} catch (error) {
+		console.log(error);
+		
+	}
+	
+
+};
+
 export {
-	getProperties
+	admin,
+	getProperty,
+	create
 };

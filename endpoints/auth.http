@@ -9,12 +9,12 @@ Content-Type: application/json
 X-CSRF-Token: dumudBpP-9SMFL2qEUh8zzrnvTx0L8xq4SZQ
 
 {
-  "email":"usuario1@gmail.com",
-  "password":"123456"
+  "email":"usuario4@gmail.com",
+  "password":""
 }
 
 ###
-GET http://localhost:3000/api/auth/confirm/jbgtefld7b81hiu2gilc
+GET http://localhost:3000/api/auth/confirm/20lthf6mdko1hiuvnu4p
 
 ###
 POST http://localhost:3000/api/auth/register HTTP/1.1
@@ -23,8 +23,8 @@ X-CSRF-Token: aagRUBlM-0EfLfsS811kSFyiwqgiHsypWFrs
 
 {
   "_csrf": "Xxoz9z69-l-8nkU4Zjwewg9XQl6BHG9LzF6c",
-  "name":"user4",
-  "email": "usuario4@gmail.com",
+  "name":"usuario6",
+  "email": "usuario6@gmail.com",
   "password": "123456",
   "repeatPassword": "123456"
 }

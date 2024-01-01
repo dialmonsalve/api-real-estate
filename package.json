@@ -4,7 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "db:import": "node ./seedmjs/seeder.mjs -i",
+    "db:delete": "node ./seedmjs/seeder.mjs -d"
   },
   "keywords": [],
   "author": "",

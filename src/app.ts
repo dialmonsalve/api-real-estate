@@ -3,7 +3,7 @@ import csrf from "csurf";
 import cookieParser from "cookie-parser";
 
 import db from "./config/db";
-import { userRoute } from "./routers";
+import { propertyRoute, userRoute } from "./routers";
 import config from "./utils/config";
 
 const app = express();
@@ -13,6 +13,7 @@ app.use(cookieParser());
 app.use(csrf({ cookie: true }));
 
 app.use("/api/auth", userRoute);
+app.use("/api", propertyRoute);
 
 db.authenticate()
 	.then((res) => {
