@@ -1,18 +1,20 @@
 import express, { Router } from "express";
-import { admin, getProperty, create } from "../controllers";
+import { admin, getProperty, create, addImage, saveProperty } from "../controllers";
 import { check } from "express-validator";
-import { validFields } from "../middlewares";
+import { protectPath, validFields } from "../middlewares";
 
 const propertyController = Router();
 propertyController.use(express.json());
 
-propertyController.get("/my-properties", admin);
+propertyController.get("/my-properties", protectPath, admin);
 
-propertyController.get("/properties/create", getProperty);
+propertyController.get("/properties/create", protectPath, getProperty);
 
 propertyController.post(
+
 	"/properties/create",
 	[
+		protectPath,
 		check("title", "Field title is required").notEmpty(),
 		check("description", "Field description is required").notEmpty(),
 		check(
@@ -29,5 +31,9 @@ propertyController.post(
 	],
 	create,
 );
+
+propertyController.get("/properties/add-image/:id", protectPath, addImage)
+
+propertyController.post("/properties/add-image/:id", protectPath, saveProperty)
 
 export default propertyController;

@@ -7,7 +7,7 @@ import { generateId, generateJWT } from "../utils/jwt";
 import { emailRegister, emailForgetPassword } from "../utils/mailtrap";
 
 const loginForm = (req: Request, res: Response) => {
-	return res.json({ message: "login" });
+	return res.json({ message: "login", csrtoekn: req.csrfToken() });
 };
 
 const authentication = async (req: Request, res: Response) => {
@@ -34,12 +34,16 @@ const authentication = async (req: Request, res: Response) => {
 	const token = generateJWT({ id: userOnDB.id, name: userOnDB.name });
 
 	return res
-		.json({ msg: "The user has been successfully authenticated", error: false })
-		.cookie("_token", token, {
-			httpOnly: true,
-			secure: true,
-			sameSite: true,
-		});
+	.cookie("_token", token, {
+		httpOnly: true,
+		secure: true,
+		sameSite: true,
+	})
+	.json({
+		msg: "The user has been successfully authenticated",
+		error: false,
+		token,
+	});
 };
 
 const registerForm = (req: Request, res: Response) => {

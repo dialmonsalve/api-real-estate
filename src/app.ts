@@ -8,8 +8,10 @@ import config from "./utils/config";
 
 const app = express();
 
-app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use(express.urlencoded({ extended: true }));
+
 app.use(csrf({ cookie: true }));
 
 app.use("/api/auth", userRoute);

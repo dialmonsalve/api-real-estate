@@ -1,18 +1,7 @@
 import { DataTypes, type Model } from "sequelize";
 import bcrypt from "bcrypt";
 import db from "../config/db";
-
-interface IUser extends Model {
-	id: string;
-	name: string;
-	email: string;
-	password: string;
-	token: null | string;
-	confirm: boolean;
-	updatedAt: string;
-	createdAt: string;
-	verifyPassword: (password: string) => boolean;
-}
+import { IUser } from "../types";
 
 const User = db.define<IUser>(
 	"user",
@@ -39,6 +28,13 @@ const User = db.define<IUser>(
 				user.password = await bcrypt.hash(user.password as string, salt);
 			},
 		},
+		scopes :{
+			deletePassword:{
+				attributes:{
+					exclude: ["password", "token", "confirm", "createdAt", "updatedAt"]
+				}
+			}
+		}
 	},
 );
 

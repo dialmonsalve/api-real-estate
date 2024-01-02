@@ -1,9 +1,10 @@
-import {Category, Price} from "./index.mjs";
+import {Category, Price, User} from "./index.mjs";
 // import Category  from "./Category.mjs";
 // import Price from "./Price.mjs";
 import db from "./db.mjs";
 import categories from "./categories.mjs";
 import prices from "./prices.mjs";
+import users from "./users.mjs";
 
 const importData = async () => {
 	try {
@@ -14,6 +15,7 @@ const importData = async () => {
 		await Promise.all([
 			Category.bulkCreate(categories),
 			Price.bulkCreate(prices),
+			User.bulkCreate(users),
 		]);
 
 		console.log("Data inserts successfully");
